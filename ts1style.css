@@ -1,0 +1,201 @@
+/*
+This Source Code Form is subject to the terms of the Mozilla Public
+License, v. 2.0. If a copy of the MPL was not distributed with this
+file, You can obtain one at http://mozilla.org/MPL/2.0/.
+
+Copyright 2018 Chris McKinney.
+*/
+
+/* External fonts. */
+@import url('https://fonts.googleapis.com/css?family=Slabo+13px');
+@import url('https://fonts.googleapis.com/css?family=Slabo+27px');
+
+/* Background color. */
+body {
+    background-color: #f8f8f8;
+}
+
+/* Normal text. */
+.ts1-content {
+    color: #111;
+    font-family: 'Slabo 13px', serif;
+}
+
+/* Header font. */
+.ts1-content h1, .ts1-content h2, .ts1-content h3,
+.ts1-content h4, .ts1-content h5, .ts1-content h6 {
+    font-family: 'Slabo 27px', serif;
+}
+
+/* Line height handling. */
+.ts1-content {
+    line-height: 1.4em;
+}
+.ts1-content h4, .ts1-content h5, .ts1-content h6 {
+    line-height: 1.2em;
+}
+.ts1-content h1, .ts1-content h2, .ts1-content h3 {
+    line-height: 1em;
+}
+
+/* Link behavior. */
+.ts1-content a, .ts1-content a:link {
+    color: #66c;
+    background-color: none;
+    text-decoration: underline;
+}
+.ts1-content a:hover {
+    color: #ffd;
+    background-color: #668;
+}
+
+/* Teletype markdown text. */
+.ts1-content code, .ts1-content pre {
+    font-family: "Courier New", Courier, monospace;
+}
+
+/* Put code blocks in boxes. */
+.ts1-content pre {
+    background-color: #eef;
+    border: 1px solid black;
+    padding: 1ex;
+    font-size: 12pt;
+    line-height: 16.8pt;
+}
+
+/* Put block quotes in boxes. */
+.ts1-content blockquote {
+    background-color: #efe;
+    border: 1px solid black;
+    padding: 0 1ex 0 1ex;
+}
+
+.ts1-content abbr {
+    text-decoration: underline dotted black;
+}
+
+/* Input fields. */
+.ts1-content input, .ts1-content textarea {
+    background-color: #112;
+    color: #ffd;
+}
+.ts1-content input:invalid, .ts1-content textarea:invalid {
+    background-color: #211;
+}
+
+/* Tables. */
+.ts1-content table {
+    border-collapse: collapse;
+}
+.ts1-content table th, .ts1-content table td {
+    border: 1px solid black;
+    padding: 2px;
+}
+
+/* Box shadows. */
+.ts1-content img.shadow, .ts1-content pre.shadow,
+.ts1-content .image-shadows img {
+    box-shadow: 5px 5px 5px 0px #546;
+    margin-right: 10px;
+}
+/* Text shadows. */
+.ts1-content a.shadow,
+.ts1-content h1.shadow, .ts1-content h2.shadow, .ts1-content h3.shadow,
+.ts1-content h4.shadow, .ts1-content h5.shadow, .ts1-content h6.shadow {
+    text-shadow: 2px 2px 2px #546;
+}
+
+/* Box center. */
+.ts1-content img.center, .ts1-content pre.center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+/* Text center. */
+.ts1-content h1.center, .ts1-content h2.center, .ts1-content h3.center,
+.ts1-content h4.center, .ts1-content h5.center, .ts1-content h6.center,
+.ts1-content div.center {
+    text-align: center;
+}
+
+/* Crude image display. */
+.ts1-content .sidephoto {
+    float: right;
+    margin: auto auto 2ex 2ex;
+}
+.ts1-content .fullwidth {
+    width: 100%;
+}
+
+/* Handle content iframes. */
+.ts1-content #content-iframe {
+    width: 100%;
+}
+
+
+/* Column photos. */
+div.columnphoto {
+    display: inline-block;
+    text-align: center;
+    position: relative;
+}
+img.columnphoto {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+/* Captions. */
+div.columnphoto-caption {
+    position: absolute;
+    /*
+    left: inherit;
+    top: inherit;
+    width: inherit;
+    height: inherit;
+    */
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+    color: white;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    display: none;
+}
+div.columnphoto-caption div {
+    position: relative;
+    top: -0.25em;
+}
+div.columnphoto:hover div.columnphoto-caption {
+    display: block;
+    z-index: 999;
+}
+
+/* Hover filters */
+img.columnphoto {
+    filter: none;
+    -moz-filter: none;
+    -webkit-filter: none;
+    -o-filter: none;
+    -ms-filter: none;
+}
+img.columnphoto.columnphoto-hover-blur:hover {
+    filter: blur(4px);
+    -moz-filter: blur(4px);
+    -webkit-filter: blur(4px);
+    -o-filter: blur(4px);
+    -ms-filter: blur(4px);
+}
+img.columnphoto.columnphoto-hover-bright:hover {
+    filter: brightness(125%);
+    -moz-filter: brightness(125%);
+    -webkit-filter: brightness(125%);
+    -o-filter: brightness(125%);
+    -ms-filter: brightness(125%);
+}
+img.columnphoto.columnphoto-hover-dark:hover {
+    filter: brightness(75%);
+    -moz-filter: brightness(75%);
+    -webkit-filter: brightness(75%);
+    -o-filter: brightness(75%);
+    -ms-filter: brightness(75%);
+}
