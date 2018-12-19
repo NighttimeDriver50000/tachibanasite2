@@ -13,6 +13,9 @@ from os import path
 
 cgitb.enable(logdir=path.join(path.dirname(__file__), "logs"))
 
+import sys
+sys.path.append("pydeps")
+
 STS_HEADER = "Strict-Transport-Security: max-age=31536000"
 
 form = cgi.FieldStorage()
@@ -46,9 +49,15 @@ unique = path.relpath(url, common)
 pathname = path.join(root, common.lstrip("/"), "pages", unique)
 if path.isdir(pathname):
     if not url.endswith("/"):
-        print("Location: {}/".format(os.environ.get("SCRIPT_URI")))
+        print("Location: {}/".format(os.environ.get("SCRIPT_URI", "")))
         error(301, "Redirecting...")
     pathname = path.join(pathname, "index")
+elif url.endswith("/"):
+    print("Location: {}".format(os.environ.get("SCRIPT_URI", "//")[:-1]))
+    error(301, "Redirecting...")
+elif url.endswith("/index"):
+    print("Location: {}".format(os.environ.get("SCRIPT_URI", "/index")[:-5]))
+    error(301, "Redirecting...")
 if path.isfile(pathname + ".ts2"):
     pathname += ".ts2"
 elif path.isfile(pathname + ".ts1"):
@@ -96,8 +105,6 @@ if pathname.endswith(".ts1"):
     print("""
         <link rel="stylesheet" type="text/css"
             href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
-        <link rel="stylesheet" type="text/css"
-            href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap-theme.min.css">
         <script type="text/javascript"
             src="https://code.jquery.com/jquery-3.3.1.min.js">
         </script>
