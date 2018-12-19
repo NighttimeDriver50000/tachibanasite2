@@ -2,14 +2,14 @@
 # License, v. 2.0. If a copy of the MPL was not distributed with this
 # file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #
-# Copyright 2018 Chris McKinney.
+# Copyright 2016 Chris McKinney.
 
 import sys
 
 def render_template_env(filename, **environment):
     """Render the template in the given environment."""
     from bottle import SimpleTemplate
-    with open(filename) as fileobj:
+    with open(filename, encoding="UTF-8") as fileobj:
         return SimpleTemplate(fileobj, name=filename).render(**environment)
 
 def render_template(filename, **environment):

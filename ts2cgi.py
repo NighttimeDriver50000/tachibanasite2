@@ -6,15 +6,17 @@
 #
 # Copyright 2018 Chris McKinney.
 
+import sys
+import codecs
+sys.stdout = codecs.getwriter("utf-8")(sys.stdout.detach())
+sys.path.append("pydeps")
+
 import cgi
 import cgitb
 import os
 from os import path
 
 cgitb.enable(logdir=path.join(path.dirname(__file__), "logs"))
-
-import sys
-sys.path.append("pydeps")
 
 STS_HEADER = "Strict-Transport-Security: max-age=31536000"
 
@@ -80,13 +82,17 @@ EXTENSION_LIST = [
         'markdown.extensions.tables',
         'markdown.extensions.codehilite',
         'markdown.extensions.smarty',
+        'markdown.extensions.extra'
         ]
 STYLESHEET_FORMAT = '<link rel="stylesheet" type="text/css" href="{}">'
 
 if pathname.endswith(".ts1"):
     import ts1template
     from urllib import parse
-    mdtext = ts1template.render_template(pathname, _GET=dict(form))
+    form_dict = {}
+    for key in form.keys():
+        form_dict[key] = form.getfirst(key)
+    mdtext = ts1template.render_template(pathname, _GET=form_dict)
     print("""
     <!DOCTYPE html>
     <html>
@@ -98,10 +104,12 @@ if pathname.endswith(".ts1"):
         <link rel="stylesheet" type="text/css"
             href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
     """)
-    ts1style_url = path.join(common, "tachibanasite2/ts1style.css")
+    ts1style_url = path.join(common, "tachibanasite2/static/ts1style.css")
     print(STYLESHEET_FORMAT.format(parse.quote(ts1style_url)))
-    codehilite_url = path.join(common, "tachibanasite2/codehilite.css")
+    codehilite_url = path.join(common, "tachibanasite2/static/codehilite.css")
     print(STYLESHEET_FORMAT.format(parse.quote(codehilite_url)))
+    deobfuscate_url = path.join(common, "tachibanasite2/static/deobfuscate.js")
+    print('<script type="text/javascript" src="{}"></script>'.format(parse.quote(deobfuscate_url)))
     print("""
         <link rel="stylesheet" type="text/css"
             href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.css">
@@ -118,7 +126,7 @@ if pathname.endswith(".ts1"):
             src="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.10.0/katex.min.js">
         </script>
         <script type="text/javascript">
-            window.onload = function() {
+            window.addEventListener("load", function(event) {
                 $(".katex-math").each(function() {
                     var latex = $(this).text();
                     var html = katex.renderToString(latex);
@@ -129,13 +137,15 @@ if pathname.endswith(".ts1"):
                     var html = katex.renderToString(latex, {displayMode: true});
                     $(this).html(html);
                 });
-            }
+            });
         </script>
     </head>
     <body>
         <main id="container" class="container" role="main">
             <div id="content" class="markdown-content ts1-content">
     """)
+    if url.rstrip("/") != common.rstrip("/"):
+        print('<p><a href="{}">[Home]</a></p>'.format(parse.quote(common)))
     print(markdown.markdown(mdtext, extensions=EXTENSION_LIST))
     print("""
             </div>
