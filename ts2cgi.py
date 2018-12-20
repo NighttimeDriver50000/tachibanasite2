@@ -44,9 +44,11 @@ def commondir(paths):
 root = os.environ.get("DOCUMENT_ROOT")
 if root is None:
     error(500, "DOCUMENT_ROOT not provided.")
-url = os.environ.get("SCRIPT_URL", "")
+url = os.environ.get("REDIRECT_URL", "")
 script = os.environ.get("SCRIPT_NAME", "")
 common = commondir([url, script])
+if not common:
+    common = "/"
 unique = path.relpath(url, common)
 pathname = path.join(root, common.lstrip("/"), "pages", unique)
 if path.isdir(pathname):

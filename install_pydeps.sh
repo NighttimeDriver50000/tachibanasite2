@@ -6,4 +6,4 @@ then
     curl https://bootstrap.pypa.io/get-pip.py -o pydeps/get-pip.py
     python3 pydeps/get-pip.py --user
 fi
-python3 -m pip install --target=pydeps bottle markdown pillow pygments
+python3 -m pip install --target=pydeps --upgrade setuptools bottle markdown pillow pygments
