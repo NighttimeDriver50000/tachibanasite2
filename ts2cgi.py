@@ -53,14 +53,14 @@ unique = path.relpath(url, common)
 pathname = path.join(root, common.lstrip("/"), "pages", unique)
 if path.isdir(pathname):
     if not url.endswith("/"):
-        print("Location: {}/".format(os.environ.get("SCRIPT_URI", "")))
+        print("Location: {}/".format(os.environ.get("REDIRECT_URL", "")))
         error(301, "Redirecting...")
     pathname = path.join(pathname, "index")
 elif url.endswith("/"):
-    print("Location: {}".format(os.environ.get("SCRIPT_URI", "//")[:-1]))
+    print("Location: {}".format(os.environ.get("REDIRECT_URL", "//")[:-1]))
     error(301, "Redirecting...")
 elif url.endswith("/index"):
-    print("Location: {}".format(os.environ.get("SCRIPT_URI", "/index")[:-5]))
+    print("Location: {}".format(os.environ.get("REDIRECT_URL", "/index")[:-5]))
     error(301, "Redirecting...")
 if path.isfile(pathname + ".ts2"):
     pathname += ".ts2"
